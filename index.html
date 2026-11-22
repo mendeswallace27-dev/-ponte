@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A PONTE v6.0 GLOBAL — Sem Intermediários</title>
+    
+    <!-- PWA Primary Meta Tags -->
+    <meta name="theme-color" content="#06120b">
+    <meta name="description" content="A PONTE v6.0 GLOBAL - Super App Anti-Golpe, Sem Censura, Conectando Produtores e Povo Direto">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="A PONTE">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eefbf4',
+                            100: '#d6f6e4',
+                            500: 'var(--accent-500)',
+                            600: 'var(--accent-600)',
+                            700: 'var(--accent-700)',
+                        },
+                        app: {
+                            darkBg: '#06120b',
+                            darkCard: '#0d2216',
+                            darkBorder: '#183824',
+                            lightBg: '#f6f7f2',
+                            lightCard: '#ffffff',
+                            lightBorder: '#e2e6d8'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'wave': 'wave 1.2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        wave: {
+                            '0%': { height: '20%' },
+                            '100%': { height: '100%' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Dynamic Theme Styling Variables -->
+    <style>
+        :root {
+            --accent-500: #10b981;
+            --accent-600: #059669;
+            --accent-700: #047857;
+            --accent-light: #d1fae5;
+            --accent-glow: rgba(16, 185, 129, 0.25);
+        }
+
+        .theme-blue {
+            --accent-500: #3b82f6;
+            --accent-600: #2563eb;
+            --accent-700: #1d4ed8;
+            --accent-light: #dbeafe;
+            --accent-glow: rgba(59, 130, 246, 0.25);
+        }
+
+        .theme-amber {
+            --accent-500: #f59e0b;
+            --accent-600: #d97706;
+            --accent-700: #b45309;
+            --accent-light: #fef3c7;
+            --accent-glow: rgba(245, 158, 11, 0.25);
+        }
+
+        .theme-purple {
+            --accent-500: #8b5cf6;
+            --accent-600: #7c3aed;
+            --accent-700: #6d28d9;
+            --accent-light: #ede9fe;
+            --accent-glow: rgba(139, 92, 246, 0.25);
+        }
+
+        .theme-orange {
+            --accent-500: #f97316;
+            --accent-600: #ea580c;
+            --accent-700: #c2410c;
+            --accent-light: #ffedd5;
+            --accent-glow: rgba(249, 115, 22, 0.25);
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(150, 150, 150, 0.3);
+            border-radius: 999px;
+        }
+
+        .glass-panel {
+            background: rgba(13, 34, 22, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .html-light .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Waveform Animation Bars */
+        .wave-bar {
+            width: 3px;
+            background: currentColor;
+            border-radius: 3px;
+            animation: wave 0.8s ease-in-out infinite alternate;
+        }
+        .wave-bar:nth-child(1) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(2) { animation-delay: 0.3s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.4s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.15s; }
+
+        .accent-bg { background-color: var(--accent-500); }
+        .accent-text { color: var(--accent-500); }
+        .accent-border { border-color: var(--accent-500); }
+        .accent-glow { box-shadow: 0 0 15px var(--accent-glow); }
+    </style>
+</head>
+<body class="bg-app-darkBg text-gray-100 font-sans antialiased min-h-screen transition-colors duration-300 select-none pb-24 md:pb-6">
+
+    <!-- APP CONTAINER (Mobile Frame Centered on Desktop) -->
+    <div id="app-wrapper" class="max-w-md mx-auto relative bg-app-darkBg min-h-screen shadow-2xl border-x border-gray-800/50 transition-colors duration-300">
+
+        <!-- HEADER TOP BAR -->
+        <header class="sticky top-0 z-40 bg-app-darkBg/95 dark:bg-app-darkBg/95 backdrop-blur-md border-b border-app-darkBorder dark:border-app-darkBorder px-3 py-2.5 transition-colors duration-300">
+            <div class="flex items-center justify-between gap-2">
+                
+                <!-- Drawer Menu Trigger Button -->
+                <button onclick="toggleDrawer(true)" class="p-2 rounded-xl bg-app-darkCard dark:bg-app-darkCard hover:bg-gray-800 text-gray-200 transition-all border border-gray-700/40 active:scale-95" title="Abrir Menu 60-em-1">
+                    <svg class="w-5 h-5 accent-text" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+
+                <!-- Brand Title & Badges -->
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-1.5">
+                        <span class="font-extrabold text-base tracking-tight text-white dark:text-white flex items-center gap-1">
+                            <span class="p-1 rounded-lg accent-bg text-black text-xs font-black">⚡</span> A PONTE
+                        </span>
+                        <span class="px-1.5 py-0.5 rounded-full text-[10px] font-bold accent-bg text-black tracking-wider uppercase">v6.0</span>
+                        <span class="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">GLOBAL</span>
+                    </div>
+                    <p class="text-[10px] text-gray-400 dark:text-gray-400 truncate">Sem Intermediários • Sem Censura • 100% Direto</p>
+                </div>
+
+                <!-- Theme Toggle & Quick Action Icons -->
+                <div class="flex items-center gap-1.5">
+                    <!-- Light / Dark Mode Toggle Button -->
+                    <button onclick="toggleTheme()" class="p-1.5 rounded-xl bg-gray-800/80 hover:bg-gray-700 text-amber-400 dark:text-amber-300 border border-gray-700/50 text-xs transition" title="Alternar Tema Claro/Escuro">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+
+                    <!-- Anti-Golpe Badge -->
+                    <div class="hidden sm:flex items-center gap-1 px-2 py-1 rounded-lg bg-emerald-950/60 text-emerald-400 border border-emerald-500/30 text-[10px] font-semibold">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                        Anti-Golpe
+                    </div>
+                </div>
+            </div>
+
+            <!-- KEY ACCENT COLOR SWITCHER ("TECLAS") -->
+            <div class="mt-2.5 pt-2 border-t border-gray-800/60 dark:border-gray-800/60 flex items-center justify-between text-[11px]">
+                <div class="flex items-center gap-1.5 font-bold text-gray-400">
+                    <span>TECLAS:</span>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="setAccentColor('emerald')" class="w-4 h-4 rounded-full bg-emerald-500 hover:scale-125 transition ring-2 ring-emerald-400/50" title="Verde Esmeralda"></button>
+                        <button onclick="setAccentColor('blue')" class="w-4 h-4 rounded-full bg-blue-500 hover:scale-125 transition ring-2 ring-blue-400/50" title="Azul Elétrico"></button>
+                        <button onclick="setAccentColor('amber')" class="w-4 h-4 rounded-full bg-amber-500 hover:scale-125 transition ring-2 ring-amber-400/50" title="Ouro Sertanejo"></button>
+                        <button onclick="setAccentColor('purple')" class="w-4 h-4 rounded-full bg-purple-500 hover:scale-125 transition ring-2 ring-purple-400/50" title="Roxo Tecno"></button>
+                        <button onclick="setAccentColor('orange')" class="w-4 h-4 rounded-full bg-orange-500 hover:scale-125 transition ring-2 ring-orange-400/50" title="Laranja Vivo"></button>
+                    </div>
+                </div>
+
+                <!-- Global Translation Selector -->
+                <div class="flex items-center gap-1.5 bg-gray-900/90 dark:bg-gray-900/90 px-2 py-0.5 rounded-lg border border-gray-700/60 text-gray-300">
+                    <span class="text-xs">🇧🇷</span>
+                    <select id="global-lang-select" class="bg-transparent text-[11px] font-medium text-gray-200 outline-none cursor-pointer" onchange="switchGlobalLanguage(this.value)">
+                        <option value="pt" class="bg-gray-900">PT (Brasil)</option>
+                        <option value="en" class="bg-gray-900">EN (English)</option>
+                        <option value="es" class="bg-gray-900">ES (Español)</option>
+                        <option value="zh" class="bg-gray-900">ZH (Mandarin)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Global Real-Time Translation & Dubbing Audio Switch Bar -->
+            <div class="mt-2 flex items-center justify-between bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-2.5 py-1.5">
+                <div class="flex items-center gap-2 text-xs">
+                    <span class="flex h-2 w-2 relative">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span class="font-semibold text-emerald-300 text-[11px]" id="translation-status-text">Tradutor IA & Dublagem Ativos (Tempo Real)</span>
+                </div>
+                <button onclick="toggleAudioDubbing()" id="dubbing-btn" class="px-2 py-0.5 rounded-md accent-bg text-black text-[10px] font-extrabold flex items-center gap-1 active:scale-95 transition">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                    Dublagem ON
+                </button>
+            </div>
+
+            <!-- Search Input Bar -->
+            <div class="mt-2.5 relative">
+                <input type="text" id="app-search-input" placeholder="Pesquisar produtores, grãos, jet-ski, denúncias, lives..." class="w-full bg-gray-900/90 dark:bg-gray-900/90 text-gray-200 text-xs rounded-xl pl-8 pr-16 py-2 border border-gray-700/60 focus:outline-none focus:ring-1 accent-border transition" onkeyup="handleGlobalSearch(this.value)">
+                <svg class="w-4 h-4 text-gray-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <span class="absolute right-2 top-1.5 px-1.5 py-0.5 rounded text-[9px] bg-gray-800 text-gray-400 font-mono">60-em-1</span>
+            </div>
+        </header>
+
+        <!-- STORIES & QUICK ACTION CAROUSEL -->
+        <section class="px-3 pt-3 pb-1 border-b border-gray-800/40 overflow-x-auto no-scrollbar flex items-center gap-3">
+            <!-- Create Button -->
+            <div onclick="openCreatePostModal()" class="flex flex-col items-center gap-1 cursor-pointer group flex-shrink-0">
+                <div class="w-14 h-14 rounded-full border-2 border-dashed accent-border flex items-center justify-center bg-gray-800/50 group-hover:scale-105 transition">
+                    <span class="accent-text text-xl font-bold">+</span>
+                </div>
+                <span class="text-[10px] font-semibold text-gray-300">Publicar</span>
+            </div>
+
+            <!-- Voz do Povo Story -->
+            <div onclick="switchTab('voz')" class="flex flex-col items-center gap-1 cursor-pointer group flex-shrink-0">
+                <div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-amber-500 to-red-500 group-hover:scale-105 transition">
+                    <div class="w-full h-full rounded-full bg-gray-900 flex items-center justify-center text-amber-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+                    </div>
+                </div>
+                <span class="text-[10px] font-semibold text-gray-300">Voz Povo</span>
+            </div>
+
+            <!-- Live Guangzhou Story -->
+            <div onclick="switchTab('reels')" class="flex flex-col items-center gap-1 cursor-pointer group flex-shrink-0 relative">
+                <div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-emerald-400 to-blue-500 group-hover:scale-105 transition">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" class="w-full h-full rounded-full object-cover" alt="Li Wei">
+                </div>
+                <span class="absolute top-0 right-0 px-1 rounded bg-red-600 text-white text-[8px] font-bold tracking-wider animate-pulse">LIVE</span>
+                <span class="text-[10px] font-semibold text-gray-300">Guangzhou</span>
+            </div>
+
+            <!-- Produtores Story -->
+            <div onclick="switchTab('mercado')" class="flex flex-col items-center gap-1 cursor-pointer group flex-shrink-0">
+                <div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-green-500 to-emerald-300 group-hover:scale-105 transition">
+                    <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=120&q=80" class="w-full h-full rounded-full object-cover" alt="Produtores">
+                </div>
+                <span class="text-[10px] font-semibold text-gray-300">Produtores</span>
+            </div>
+
+            <!-- Aluguel Justo Story -->
+            <div onclick="filterMercado('aluguel')" class="flex flex-col items-center gap-1 cursor-pointer group flex-shrink-0">
+                <div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-cyan-500 to-blue-600 group-hover:scale-105 transition">
+                    <div class="w-full h-full rounded-full bg-gray-900 flex items-center justify-center text-cyan-400">
+                        ⛵
+                    </div>
+                </div>
+                <span class="text-[10px] font-semibold text-gray-300">Aluguel</span>
+            </div>
+
+            <!-- Dola IA Story -->
+            <div onclick="switchTab('dola')" class="flex flex-col items-center gap-1 cursor-pointer group flex-shrink-0">
+                <div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-purple-500 to-pink-500 group-hover:scale-105 transition">
+                    <div class="w-full h-full rounded-full bg-gray-900 flex items-center justify-center text-purple-300 text-xl font-black">
+                        🧠
+                    </div>
+                </div>
+                <span class="text-[10px] font-semibold text-gray-300">Dola IA</span>
+            </div>
+        </section>
+
+        <!-- SUB-NAV TAB CHIPS -->
+        <nav class="px-3 py-2 flex items-center gap-2 overflow-x-auto no-scrollbar border-b border-gray-800/40 text-xs">
+            <button onclick="setActiveSubTab('feed')" id="subtab-feed" class="subtab-btn active font-bold px-3 py-1.5 rounded-xl bg-gray-800 text-white flex items-center gap-1.5 whitespace-nowrap border border-gray-700/50">
+                🔥 Para Você (Social)
+            </button>
+            <button onclick="setActiveSubTab('mercado')" id="subtab-mercado" class="subtab-btn font-semibold px-3 py-1.5 rounded-xl bg-gray-900/60 text-gray-400 hover:text-white flex items-center gap-1.5 whitespace-nowrap border border-gray-800">
+                🥩 Mercado Direto
+            </button>
+            <button onclick="setActiveSubTab('auditoria')" id="subtab-auditoria" class="subtab-btn font-semibold px-3 py-1.5 rounded-xl bg-gray-900/60 text-gray-400 hover:text-white flex items-center gap-1.5 whitespace-nowrap border border-gray-800">
+                👁️ Voz & Auditoria
+            </button>
+            <button onclick="setActiveSubTab('estudos')" id="subtab-estudos" class="subtab-btn font-semibold px-3 py-1.5 rounded-xl bg-gray-900/60 text-gray-400 hover:text-white flex items-center gap-1.5 whitespace-nowrap border border-gray-800">
+                📚 Estudos & Cultura
+            </button>
+        </nav>
+
+        <!-- MAIN VIEWPORT CONTAINER -->
+        <main id="main-content" class="p-3">
+
+            <!-- TAB 1: SOCIAL FEED & HYBRID REDES (DEFAULT) -->
+            <section id="tab-inicio" class="space-y-4">
+
+                <!-- Post Creation Quick Input -->
+                <div class="bg-app-darkCard dark:bg-app-darkCard p-3 rounded-2xl border border-app-darkBorder dark:border-app-darkBorder shadow-lg">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-full accent-bg text-black font-extrabold flex items-center justify-center text-sm">
+                            EU
+                        </div>
+                        <input type="text" onclick="openCreatePostModal()" placeholder="No que você está pensando ou produzindo hoje?" class="flex-1 bg-gray-900/80 text-gray-200 text-xs rounded-xl px-3 py-2 border border-gray-700/50 cursor-pointer hover:border-gray-600 transition">
+                    </div>
+                    <div class="mt-3 pt-2 border-t border-gray-800/60 flex items-center justify-around text-[11px] text-gray-300">
+                        <button onclick="openCreatePostModal('midia')" class="flex items-center gap-1 hover:text-emerald-400">
+                            📷 Foto/Vídeo
+                        </button>
+                        <button onclick="openCreatePostModal('denuncia')" class="flex items-center gap-1 hover:text-amber-400">
+                            📢 Denúncia / Voz
+                        </button>
+                        <button onclick="openCreatePostModal('oferta')" class="flex items-center gap-1 hover:text-blue-400">
+                            🏪 Oferta Direta
+                        </button>
+                    </div>
+                </div>
+
+                <!-- POST CARD 1: ANA PAULA - FEIRANTE DO SERTÃO -->
+                <article class="bg-app-darkCard dark:bg-app-darkCard rounded-2xl border border-app-darkBorder dark:border-app-darkBorder overflow-hidden shadow-md">
+                    <!-- Post Header -->
+                    <div class="p-3 flex items-center justify-between border-b border-gray-800/40">
+                        <div class="flex items-center gap-2.5">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-full object-cover border border-emerald-500/40" alt="Ana Paula">
+                            <div>
+                                <div class="flex items-center gap-1.5">
+                                    <h4 class="font-bold text-xs text-gray-100">Ana Paula — Feirante</h4>
+                                    <span class="text-xs">🇧🇷</span>
+                                    <span class="px-1.5 py-0.2 rounded text-[9px] bg-emerald-950 text-emerald-400 font-bold border border-emerald-500/30">Produtor Verificado</span>
+                                </div>
+                                <p class="text-[10px] text-gray-400">Juazeiro, Bahia • Há 15 min • Direto do Sertão</p>
+                            </div>
+                        </div>
+                        <button class="text-gray-400 hover:text-gray-200 p-1">•••</button>
+                    </div>
+
+                    <!-- Post Content Text -->
+                    <div class="p-3 text-xs text-gray-200 leading-relaxed space-y-2">
+                        <p>Hoje colhemos mais de 500kg de frutas frescas direto da agricultura familiar! Sem atravessador nem taxa escondida. Entrega rápida para mercados comunitários e famílias.</p>
+                        <div class="flex flex-wrap gap-2 pt-1">
+                            <span class="px-2 py-1 rounded-lg bg-emerald-900/40 text-emerald-300 text-[11px] font-bold border border-emerald-500/30">🍊 Mangas & Uvas: R$ 4,50/kg</span>
+                            <span class="px-2 py-1 rounded-lg bg-emerald-900/40 text-emerald-300 text-[11px] font-bold border border-emerald-500/30">🍌 Banana Prata: R$ 3,20/kg</span>
+                        </div>
+                    </div>
+
+                    <!-- Post Media Grid -->
+                    <div class="grid grid-cols-2 gap-0.5 bg-gray-900">
+                        <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=400&q=80" class="w-full h-44 object-cover hover:opacity-90 transition cursor-pointer" alt="Frutas 1">
+                        <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=400&q=80" class="w-full h-44 object-cover hover:opacity-90 transition cursor-pointer" alt="Frutas 2">
+                    </div>
+
+                    <!-- Post Actions & Comments -->
+                    <div class="p-3 space-y-2">
+                        <div class="flex items-center justify-between text-xs text-gray-400 border-b border-gray-800/40 pb-2">
+                            <div class="flex items-center gap-4">
+                                <button onclick="toggleLike(this)" class="flex items-center gap-1 hover:text-rose-400 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                    <span class="like-count font-bold">142</span>
+                                </button>
+                                <button onclick="toggleComments('comments-1')" class="flex items-center gap-1 hover:text-blue-400 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                    <span class="font-bold">28</span>
+                                </button>
+                            </div>
+                            <button onclick="startZapChat('Ana Paula - Feirante', 'Tenho interesse nas frutas!')" class="px-2.5 py-1 rounded-xl accent-bg text-black font-extrabold text-[11px] flex items-center gap-1 shadow hover:brightness-110 active:scale-95 transition">
+                                💬 Comprar no Zap
+                            </button>
+                        </div>
+
+                        <!-- Collapsible Comments Area -->
+                        <div id="comments-1" class="hidden pt-2 space-y-2 text-xs">
+                            <div class="bg-gray-900/60 p-2 rounded-xl border border-gray-800">
+                                <span class="font-bold text-emerald-400">Marcos (Mercado Local):</span>
+                                <span class="text-gray-300"> Quero 50kg para entregar no centro amanhã!</span>
+                            </div>
+                            <div class="flex gap-1.5">
+                                <input type="text" placeholder="Escreva um comentário direto..." class="flex-1 bg-gray-900 text-xs rounded-xl px-2.5 py-1.5 border border-gray-700/60 text-gray-200">
+                                <button class="px-3 py-1 bg-gray-800 text-white rounded-xl font-bold text-xs hover:bg-gray-700">Enviar</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- POST CARD 2: INTERNATIONAL LIVE STREAMING WITH AI AUDIO DUBBING & TRANSLATION -->
+                <article class="bg-app-darkCard dark:bg-app-darkCard rounded-2xl border border-emerald-500/40 overflow-hidden shadow-lg relative">
+                    <div class="bg-emerald-950/80 px-3 py-1.5 border-b border-emerald-500/30 flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-1.5 font-bold text-emerald-300">
+                            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                            <span>LIVE DA FÁBRICA — GUANGZHOU 🇨🇳</span>
+                        </div>
+                        <span class="text-[10px] text-gray-400">1.4k assistindo • Tradução Direta</span>
+                    </div>
+
+                    <!-- Video Container with Simulated AI Subtitles & Voice Player -->
+                    <div class="relative bg-black h-56 flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-80" alt="Fábrica Guangzhou">
+                        
+                        <!-- Overlay AI Translation Dubbing Card -->
+                        <div class="absolute bottom-2 left-2 right-2 bg-gray-950/90 backdrop-blur-md p-2.5 rounded-xl border border-emerald-500/40 space-y-1.5">
+                            <div class="flex items-center justify-between text-[10px]">
+                                <span class="text-emerald-400 font-bold flex items-center gap-1">
+                                    🎙️ VOZ IA TRADUZIDA (Chinês ➔ Português)
+                                </span>
+                                <!-- Audio Waveform visualizer -->
+                                <div class="flex items-end gap-0.5 h-3 text-emerald-400">
+                                    <div class="wave-bar h-full"></div>
+                                    <div class="wave-bar h-3/4"></div>
+                                    <div class="wave-bar h-1/2"></div>
+                                    <div class="wave-bar h-full"></div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-white font-medium italic">
+                                "Aqui na fábrica em Guangzhou montamos relógios e eletrônicos direto sem atravessadores. Enviamos lote mínimo de 10 unidades com imposto transparente."
+                            </p>
+                            <div class="flex items-center justify-between pt-1">
+                                <button onclick="speakText('Aqui na fábrica em Guangzhou montamos relógios e eletrônicos direto sem atravessadores.')" class="px-2 py-0.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 rounded text-[10px] font-bold border border-emerald-500/40 flex items-center gap-1">
+                                    🔊 Play Voz Dublada
+                                </button>
+                                <button onclick="startZapChat('Li Wei (Guangzhou Electronics)', 'Quero importar direto da fábrica!')" class="px-2.5 py-0.5 accent-bg text-black rounded text-[10px] font-bold">
+                                    🛒 Fazer Pedido Direto
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- POST CARD 3: US FARMER JOHN MILLER (ANTI-CORPORATION DIRECT GRAIN TRADE) -->
+                <article class="bg-app-darkCard dark:bg-app-darkCard rounded-2xl border border-app-darkBorder dark:border-app-darkBorder overflow-hidden shadow-md">
+                    <div class="p-3 flex items-center justify-between border-b border-gray-800/40">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-400 font-extrabold flex items-center justify-center text-xs border border-amber-500/40">
+                                JM
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-1.5">
+                                    <h4 class="font-bold text-xs text-gray-100">John Miller</h4>
+                                    <span class="text-xs">🇺🇸</span>
+                                    <span class="text-[10px] text-gray-400">Texas, USA</span>
+                                </div>
+                                <p class="text-[10px] text-gray-400">Produtor de Milho & Grãos • Direct Export</p>
+                            </div>
+                        </div>
+                        <button onclick="translatePost('post-3-text')" class="px-2 py-1 bg-gray-800 hover:bg-gray-700 text-emerald-400 text-[10px] rounded-lg font-bold border border-gray-700 flex items-center gap-1">
+                            🌐 Traduzir IA
+                        </button>
+                    </div>
+
+                    <div class="p-3 text-xs text-gray-200 leading-relaxed space-y-2">
+                        <p id="post-3-text">"Here in America, big grain cartels try to force low prices on farmers. Through A PONTE, we want to export non-GMO grain directly to Latin American cooperatives without corporate speculators taking 60% margin!"</p>
+                    </div>
+
+                    <div class="px-3 pb-3 flex items-center justify-between text-xs text-gray-400 border-t border-gray-800/40 pt-2">
+                        <span class="text-[11px] font-bold text-amber-400">🌽 Oferta: Milho em Grão Direct Contrato PWA</span>
+                        <button onclick="startZapChat('John Miller (Texas Grains)', 'Interesse em cotação de milho sem atravessador')" class="px-2.5 py-1 bg-gray-800 hover:bg-gray-700 text-white rounded-xl font-bold text-[11px]">
+                            Contatar Produtor
+                        </button>
+                    </div>
+                </article>
+
+            </section>
+
+            <!-- TAB 2: REELS & CLIPS (TIKTOK / REELS STYLE FEED) -->
+            <section id="tab-reels" class="hidden space-y-4">
+                <div class="flex items-center justify-between px-1 mb-2">
+                    <h3 class="font-bold text-sm text-gray-100 flex items-center gap-1.5">
+                        🎬 Reels & Clips <span class="text-[10px] font-normal text-gray-400">(Vídeos curtos com dublagem IA em tempo real)</span>
+                    </h3>
+                </div>
+
+                <!-- Reel Card 1 -->
+                <div class="relative bg-gray-950 rounded-2xl overflow-hidden h-[450px] border border-gray-800 shadow-xl flex flex-col justify-end p-4">
+                    <img src="https://images.unsplash.com/photo-1595246140625-573b715d11dc?auto=format&fit=crop&w=600&q=80" class="absolute inset-0 w-full h-full object-cover opacity-70" alt="Corte de Carne">
+                    
+                    <!-- Reel Top Badges -->
+                    <div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+                        <span class="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur text-emerald-400 text-[10px] font-bold border border-emerald-500/30">🥩 Pecuária Sustentável</span>
+                        <span class="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur text-gray-300 text-[10px]">Pará, Brasil 🇧🇷</span>
+                    </div>
+
+                    <!-- Reel Bottom Info & Controls -->
+                    <div class="relative z-10 space-y-2 text-white">
+                        <div class="flex items-center gap-2">
+                            <div class="w-9 h-9 rounded-full bg-emerald-600 font-bold flex items-center justify-center text-xs">FZ</div>
+                            <div>
+                                <h4 class="font-bold text-xs">Fazenda Ouro Verde</h4>
+                                <p class="text-[10px] text-gray-300">Boi Gordo kg fracionado ou lote inteiro</p>
+                            </div>
+                        </div>
+                        <p class="text-xs font-medium text-gray-200">"Despachamos carne bovina de primeira inspecionada direto para frigoríficos e açougues de bairro!"</p>
+
+                        <!-- Price Tag -->
+                        <div class="flex items-center justify-between bg-black/60 backdrop-blur p-2 rounded-xl border border-gray-700/50">
+                            <span class="text-emerald-400 font-extrabold text-xs">R$ 24,00 / kg (Preço Justo Direto)</span>
+                            <button onclick="startZapChat('Fazenda Ouro Verde', 'Quero cotar lote de carne bovina')" class="px-3 py-1 accent-bg text-black text-xs font-extrabold rounded-lg">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: MERCADO DIRETO & ALUGUEL JUSTO -->
+            <section id="tab-mercado" class="hidden space-y-4">
+                <!-- Category Filter Pills -->
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+                    <button onclick="filterMercado('todos')" class="px-3 py-1 rounded-full bg-gray-800 text-white text-xs font-bold whitespace-nowrap border border-gray-700">Todos os Produtos</button>
+                    <button onclick="filterMercado('alimento')" class="px-3 py-1 rounded-full bg-gray-900 text-gray-400 text-xs font-semibold whitespace-nowrap border border-gray-800">🥩 Carnes & Frango</button>
+                    <button onclick="filterMercado('aluguel')" class="px-3 py-1 rounded-full bg-gray-900 text-gray-400 text-xs font-semibold whitespace-nowrap border border-gray-800">⛵ Aluguel Justo (Iates/Imóveis)</button>
+                    <button onclick="filterMercado('fabrica')" class="px-3 py-1 rounded-full bg-gray-900 text-gray-400 text-xs font-semibold whitespace-nowrap border border-gray-800">🏭 Fábricas Diretas</button>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="grid grid-cols-2 gap-3" id="mercado-grid">
+
+                    <!-- ITEM 1: CARNE BOVINA -->
+                    <div class="mercado-card alimento bg-app-darkCard dark:bg-app-darkCard rounded-xl border border-app-darkBorder dark:border-app-darkBorder overflow-hidden p-2.5 flex flex-col justify-between">
+                        <div>
+                            <div class="relative rounded-lg overflow-hidden h-28 bg-gray-900 mb-2">
+                                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover" alt="Carne">
+                                <span class="absolute top-1 left-1 px-1.5 py-0.5 bg-emerald-950 text-emerald-400 font-bold text-[9px] rounded border border-emerald-500/30">Verificado</span>
+                            </div>
+                            <h4 class="font-bold text-xs text-gray-100">Carne Bovina (Boi Gordo)</h4>
+                            <p class="text-[10px] text-gray-400">Lote ou kg fracionado</p>
+                        </div>
+                        <div class="mt-2 pt-2 border-t border-gray-800/60 flex items-center justify-between">
+                            <span class="text-xs font-extrabold text-emerald-400">R$ 24,00/kg</span>
+                            <button onclick="startZapChat('Vendedor Carne', 'Quero comprar carne bovina')" class="p-1.5 accent-bg text-black rounded-lg text-xs font-bold">🛒</button>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 2: FRANGO VIVO / ABATIDO -->
+                    <div class="mercado-card alimento bg-app-darkCard dark:bg-app-darkCard rounded-xl border border-app-darkBorder dark:border-app-darkBorder overflow-hidden p-2.5 flex flex-col justify-between">
+                        <div>
+                            <div class="relative rounded-lg overflow-hidden h-28 bg-gray-900 mb-2">
+                                <img src="https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover" alt="Frango">
+                                <span class="absolute top-1 left-1 px-1.5 py-0.5 bg-emerald-950 text-emerald-400 font-bold text-[9px] rounded border border-emerald-500/30">Direto do Campo</span>
+                            </div>
+                            <h4 class="font-bold text-xs text-gray-100">Frango Vivo ou Processado</h4>
+                            <p class="text-[10px] text-gray-400">Garantia de procedência</p>
+                        </div>
+                        <div class="mt-2 pt-2 border-t border-gray-800/60 flex items-center justify-between">
+                            <span class="text-xs font-extrabold text-emerald-400">R$ 9,50/kg</span>
+                            <button onclick="startZapChat('Granja Direta', 'Quero comprar frango')" class="p-1.5 accent-bg text-black rounded-lg text-xs font-bold">🛒</button>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 3: JET SKI ALUGUEL JUSTO -->
+                    <div class="mercado-card aluguel bg-app-darkCard dark:bg-app-darkCard rounded-xl border border-app-darkBorder dark:border-app-darkBorder overflow-hidden p-2.5 flex flex-col justify-between">
+                        <div>
+                            <div class="relative rounded-lg overflow-hidden h-28 bg-gray-900 mb-2">
+                                <img src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover" alt="Jet Ski">
+                                <span class="absolute top-1 left-1 px-1.5 py-0.5 bg-blue-950 text-blue-300 font-bold text-[9px] rounded border border-blue-500/30">Sem Especulação</span>
+                            </div>
+                            <h4 class="font-bold text-xs text-gray-100">Jet-Ski Sea-Doo GTI</h4>
+                            <p class="text-[10px] text-gray-400">Marina Sol • Avaliação 4.9 ★</p>
+                        </div>
+                        <div class="mt-2 pt-2 border-t border-gray-800/60 flex items-center justify-between">
+                            <span class="text-xs font-extrabold text-cyan-400">R$ 350,00/h</span>
+                            <button onclick="startZapChat('Marina Sol', 'Reservar Jet-ski sem taxa de agência')" class="p-1.5 bg-cyan-500 text-black rounded-lg text-xs font-bold">⛵</button>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 4: IATE PASSEIO FAMÍLIA -->
+                    <div class="mercado-card aluguel bg-app-darkCard dark:bg-app-darkCard rounded-xl border border-app-darkBorder dark:border-app-darkBorder overflow-hidden p-2.5 flex flex-col justify-between">
+                        <div>
+                            <div class="relative rounded-lg overflow-hidden h-28 bg-gray-900 mb-2">
+                                <img src="https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover" alt="Iate">
+                                <span class="absolute top-1 left-1 px-1.5 py-0.5 bg-blue-950 text-blue-300 font-bold text-[9px] rounded border border-blue-500/30">Vistoriado</span>
+                            </div>
+                            <h4 class="font-bold text-xs text-gray-100">Iate 40 Pés Passeio</h4>
+                            <p class="text-[10px] text-gray-400">Capacidade 12 passageiros</p>
+                        </div>
+                        <div class="mt-2 pt-2 border-t border-gray-800/60 flex items-center justify-between">
+                            <span class="text-xs font-extrabold text-cyan-400">R$ 1.200/dia</span>
+                            <button onclick="startZapChat('Dono do Iate', 'Reservar passeio de iate')" class="p-1.5 bg-cyan-500 text-black rounded-lg text-xs font-bold">⚓</button>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- TAB 4: VOZ DO POVO & AUDITORIA PÚBLICA -->
+            <section id="tab-voz" class="hidden space-y-4">
+                
+                <!-- Telão de Transparência de Obras Públicas -->
+                <div class="bg-app-darkCard dark:bg-app-darkCard p-3.5 rounded-2xl border border-amber-500/40 shadow-lg">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="font-extrabold text-xs text-amber-400 flex items-center gap-1.5">
+                            👁️ TELÃO DE TRANSPARÊNCIA PÚBLICA (AO VIVO)
+                        </h3>
+                        <span class="px-2 py-0.5 rounded text-[9px] font-bold bg-amber-950 text-amber-300 border border-amber-500/30">100% Auditado</span>
+                    </div>
+                    <p class="text-[11px] text-gray-300 mb-3">Fiscalização direta de gastos governamentais e compras públicas sem nota superfaturada.</p>
+
+                    <div class="space-y-2">
+                        <!-- Obra 1 -->
+                        <div class="bg-gray-900/80 p-2.5 rounded-xl border border-gray-800 flex items-center justify-between">
+                            <div>
+                                <h5 class="font-bold text-xs text-white">🚧 Pavimentação BR-316 (Pará)</h5>
+                                <p class="text-[10px] text-gray-400">Auditado por: 412 Moradores da região</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="font-extrabold text-xs text-emerald-400">R$ 14.200.000,00</span>
+                                <span class="block text-[9px] text-gray-400">Verba alocada no portal</span>
+                            </div>
+                        </div>
+
+                        <!-- Obra 2 -->
+                        <div class="bg-gray-900/80 p-2.5 rounded-xl border border-gray-800 flex items-center justify-between">
+                            <div>
+                                <h5 class="font-bold text-xs text-white">🏥 Reforma Hospital Regional</h5>
+                                <p class="text-[10px] text-gray-400">Compra de leitos UTI sem intermediário</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="font-extrabold text-xs text-emerald-400">R$ 3.850.000,00</span>
+                                <span class="block text-[9px] text-gray-400">Sem superfaturamento</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Canal de Desabafo & Denúncia Anônima Segura -->
+                <div class="bg-app-darkCard dark:bg-app-darkCard p-3.5 rounded-2xl border border-app-darkBorder dark:border-app-darkBorder space-y-3">
+                    <h3 class="font-bold text-xs text-gray-100 flex items-center gap-1.5">
+                        📢 Desabafo Seguro & Denúncias Verificadas
+                    </h3>
+                    <textarea id="denuncia-text-input" placeholder="Registre uma injustiça, denúncia de infraestrutura ou desabafo (sua voz não será apagada por censura)..." class="w-full bg-gray-900 text-xs text-gray-200 rounded-xl p-3 border border-gray-700/60 h-24 focus:outline-none focus:ring-1 accent-border"></textarea>
+                    
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center gap-1.5 text-xs text-gray-400 cursor-pointer">
+                            <input type="checkbox" id="anon-check" class="rounded bg-gray-900 border-gray-700 accent-bg">
+                            <span>Manter Anônimo</span>
+                        </label>
+                        <button onclick="submitDenuncia()" class="px-4 py-1.5 accent-bg text-black font-extrabold text-xs rounded-xl hover:brightness-110 active:scale-95 transition">
+                            Publicar Denúncia
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cursos Gratuitos & Estudos -->
+                <div class="bg-app-darkCard dark:bg-app-darkCard p-3.5 rounded-2xl border border-app-darkBorder dark:border-app-darkBorder space-y-2">
+                    <h3 class="font-bold text-xs text-gray-100 flex items-center gap-1.5">
+                        📚 Biblioteca Popular & Cursos Gratuitos
+                    </h3>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="bg-gray-900 p-2.5 rounded-xl border border-gray-800">
+                            <span class="text-emerald-400 font-bold block">🌱 Cultivo Sem Agrotóxico</span>
+                            <span class="text-[10px] text-gray-400">Aprenda a produzir mais gastando menos.</span>
+                        </div>
+                        <div class="bg-gray-900 p-2.5 rounded-xl border border-gray-800">
+                            <span class="text-amber-400 font-bold block">⚖️ Seus Direitos Legais</span>
+                            <span class="text-[10px] text-gray-400">Guia prático para não ser enganado.</span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- TAB 5: ZAP / CHAT DIRETO -->
+            <section id="tab-zap" class="hidden space-y-3">
+                <div class="flex items-center justify-between px-1">
+                    <h3 class="font-bold text-sm text-gray-100">💬 Mensagens Diretas (Sem Atravessadores)</h3>
+                    <span class="px-2 py-0.5 rounded-full accent-bg text-black font-extrabold text-[10px]">Criptografado</span>
+                </div>
+
+                <!-- Chat List -->
+                <div class="space-y-2" id="chat-list-container">
+                    <!-- Chat Item 1 -->
+                    <div onclick="openChatRoom('Ana Paula - Feirante', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80')" class="bg-app-darkCard dark:bg-app-darkCard p-3 rounded-xl border border-app-darkBorder dark:border-app-darkBorder flex items-center justify-between cursor-pointer hover:border-gray-600 transition">
+                        <div class="flex items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-full object-cover border border-emerald-500/40" alt="Ana Paula">
+                            <div>
+                                <h4 class="font-bold text-xs text-white">Ana Paula — Feirante</h4>
+                                <p class="text-[11px] text-gray-400 truncate w-44">Combinado! O lote de frutas sai amanhã cedo.</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] text-gray-400">14:20</span>
+                            <span class="block w-2 h-2 rounded-full accent-bg ml-auto mt-1"></span>
+                        </div>
+                    </div>
+
+                    <!-- Chat Item 2 -->
+                    <div onclick="openChatRoom('Li Wei (Guangzhou Electronics)', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80')" class="bg-app-darkCard dark:bg-app-darkCard p-3 rounded-xl border border-app-darkBorder dark:border-app-darkBorder flex items-center justify-between cursor-pointer hover:border-gray-600 transition">
+                        <div class="flex items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" class="w-10 h-10 rounded-full object-cover border border-blue-500/40" alt="Li Wei">
+                            <div>
+                                <h4 class="font-bold text-xs text-white">Li Wei (Guangzhou) 🇨🇳</h4>
+                                <p class="text-[11px] text-emerald-400 font-medium truncate w-44">🌐 Traduzido: Enviaremos rastreio PWA.</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] text-gray-400">Ontem</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: DOLA IA GATEWAY ASSISTANT -->
+            <section id="tab-dola" class="hidden space-y-3">
+                <div class="bg-app-darkCard dark:bg-app-darkCard p-3.5 rounded-2xl border border-purple-500/40 shadow-lg space-y-3">
+                    <div class="flex items-center justify-between border-b border-gray-800/60 pb-2">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-purple-600 text-white font-black flex items-center justify-center text-sm">🧠</div>
+                            <div>
+                                <h3 class="font-bold text-xs text-white">Dola IA Assistente Global</h3>
+                                <p class="text-[10px] text-purple-300">Conectado via AI Gateway sem intermediários</p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[9px] font-bold bg-purple-950 text-purple-300 border border-purple-500/40">Gemini 3 Flash</span>
+                    </div>
+
+                    <!-- AI Gateway Quick Action Chips -->
+                    <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar text-[10px]">
+                        <button onclick="sendDolaPrompt('Analise um contrato de aluguel para evitar golpes')" class="px-2.5 py-1 rounded-lg bg-gray-900 border border-purple-500/30 text-purple-200 whitespace-nowrap">📜 Checar Contrato Anti-Golpe</button>
+                        <button onclick="sendDolaPrompt('Como posso vender meus produtos direto sem atravessador?')" class="px-2.5 py-1 rounded-lg bg-gray-900 border border-purple-500/30 text-purple-200 whitespace-nowrap">💡 Venda Direta</button>
+                        <button onclick="sendDolaPrompt('Traduzir mensagem do chinês para português')" class="px-2.5 py-1 rounded-lg bg-gray-900 border border-purple-500/30 text-purple-200 whitespace-nowrap">🌐 Tradutor Voz/Texto</button>
+                    </div>
+
+                    <!-- AI Chat Display Area -->
+                    <div id="dola-chat-box" class="h-64 overflow-y-auto space-y-2 p-2 bg-gray-950/80 rounded-xl border border-gray-800 text-xs">
+                        <div class="bg-purple-950/40 border border-purple-500/30 p-2.5 rounded-xl text-purple-200">
+                            Olá! Sou o <strong>Dola IA</strong> do aplicativo A PONTE. Posso te ajudar a negociar direto com produtores do mundo todo, calcular frete justo, traduzir idiomas em tempo real ou denunciar irregularidades. Como posso te apoiar hoje?
+                        </div>
+                    </div>
+
+                    <!-- AI Input Field -->
+                    <div class="flex gap-2">
+                        <input type="text" id="dola-user-input" placeholder="Pergunte ou peça para traduzir/analisar..." class="flex-1 bg-gray-900 text-xs text-gray-200 rounded-xl px-3 py-2 border border-gray-700 focus:outline-none focus:ring-1 focus:ring-purple-500" onkeypress="if(event.key==='Enter') triggerDolaSend()">
+                        <button onclick="triggerDolaSend()" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl transition">
+                            Enviar
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- SIDE DRAWER MENU (A PONTE 60-EM-1 OVERLAY) -->
+        <div id="drawer-menu" class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out pointer-events-none">
+            <!-- Backdrop -->
+            <div onclick="toggleDrawer(false)" class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+
+            <!-- Drawer Panel -->
+            <div class="relative w-80 max-w-[85%] bg-app-darkBg dark:bg-app-darkBg h-full shadow-2xl border-r border-app-darkBorder flex flex-col justify-between overflow-y-auto p-4 pointer-events-auto">
+                <div class="space-y-4">
+                    <!-- Drawer Header -->
+                    <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="p-1.5 rounded-xl accent-bg text-black font-black text-xs">⚡</span>
+                            <div>
+                                <h3 class="font-extrabold text-sm text-white">A PONTE</h3>
+                                <p class="text-[10px] accent-text font-bold">Menu Central 60-em-1</p>
+                            </div>
+                        </div>
+                        <button onclick="toggleDrawer(false)" class="p-1 rounded-lg text-gray-400 hover:text-white">✕</button>
+                    </div>
+
+                    <p class="text-[11px] text-gray-400">Nenhum aplicativo separado. Tudo reunido em uma só ponte segura.</p>
+
+                    <!-- Drawer Category Sections -->
+                    <div class="space-y-3">
+                        <!-- REDES SOCIAIS & MÍDIA -->
+                        <div>
+                            <span class="text-[10px] font-bold text-amber-400 tracking-wider uppercase block mb-1.5">📱 REDES SOCIAIS & MÍDIA</span>
+                            <div class="grid grid-cols-2 gap-1.5 text-xs">
+                                <button onclick="drawerNavigate('feed')" class="p-2 rounded-xl bg-app-darkCard border border-gray-800 text-left hover:border-emerald-500/50 flex items-center gap-1.5 text-gray-200">
+                                    <span>📰</span> Face Dola
+                                </button>
+                                <button onclick="drawerNavigate('feed')" class="p-2 rounded-xl bg-app-darkCard border border-gray-800 text-left hover:border-emerald-500/50 flex items-center gap-1.5 text-gray-200">
+                                    <span>📷</span> Insta Vila
+                                </button>
+                                <button onclick="drawerNavigate('reels')" class="p-2 rounded-xl bg-app-darkCard border border-gray-800 text-left hover:border-emerald-500/50 flex items-center gap-1.5 text-gray-200">
+                                    <span>🎬</span> Clips & Reels
+                                </button>
+                                <button onclick="drawerNavigate('reels')" class="p-2 rounded-xl bg-app-darkCard border border-gray-800 text-left hover:border-emerald-500/50 flex items-center gap-1.5 text-gray-200">
+                                    <span>📡</span> Live Traduzida
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- MERCADO JUSTO & FÁBRICAS -->
+                        <div>
+                            <span class="text-[10px] font-bold text-emerald-400 tracking-wider uppercase block mb-1.5">🌾 MERCADO JUSTO & FÁBRICAS</span>
+                            <div class="grid grid-cols-2 gap-1.5 text-xs">
+                                <button onclick="drawerNavigate('mercado')" class="p-2 rounded-xl bg-app-darkCard border border-gray-800 text-left hover:border-emerald-500/50 flex items-center gap-1.5 text-gray-200">
+                                    <span>🥩</span> Carne & Frango
+                                </button>
+                                <button onclick="drawerNavigate('mercado')" class="p-2 rounded-xl bg-app-darkCard border border-gray-800 text-left hover:border-emerald-500/50 flex items-center gap-1.5 text-gray-200">
+                                    <span>🏭</span> Fábricas Diretas
+                                </button>
+                                <button onclick="drawerNavigate('mercado')" class="p-2 rounded-xl bg-app-darkCard border border-gray-800 text-left hover:border-emerald-500/50 flex items-center gap-1.5 text-gray-200">
+                                    <span>⛵</span> Jet-Ski & Iates
+                                </button>
+                                <button onclick="drawerNavigate('mercado')" class="p-2 rounded-xl bg-app-darkCard border border-gray-800 text-left hover:border-emerald-500/50 flex items-center gap-1.5 text-gray-200">
+                                    <span>🏢</span> Imóveis Sem Golpe
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- FINANÇAS & TRANSPARÊNCIA -->
+                        <div>
+                            <span class="text-[10px] font-bold text-blue-400 tracking-wider uppercase block mb-1.5">🏛️ FINANÇAS & TRANSPARÊNCIA</span>
+                            <div class="grid grid-cols-2 gap-1.5 text-xs">
+                                <button onclick="showToast('Banco Ético PWA ativo sem taxas abusivas!')" class="p-2 rounded-xl bg-app-darkCard border border-gray-800 text-left hover:border-blue-500/50 flex items-center gap-1.5 text-gray-200">
+                                    <span>🏦</span> Banco Ético
+                                </button>
+                                <button onclick="drawerNavigate('voz')" class="p-2 rounded-xl bg-app-darkCard border border-gray-800 text-left hover:border-blue-500/50 flex items-center gap-1.5 text-gray-200">
+                                    <span>👁️</span> Auditoria Obras
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Drawer Footer -->
+                <div class="pt-4 border-t border-gray-800 space-y-2">
+                    <button onclick="installPWA()" class="w-full py-2.5 accent-bg text-black font-extrabold rounded-xl text-xs flex items-center justify-center gap-2 shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Instalar PWA no Celular / PC
+                    </button>
+                    <p class="text-[9px] text-gray-500 text-center">A PONTE v6.0 © Todos os direitos do Povo</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHAT ROOM MODAL -->
+        <div id="chat-room-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex flex-col justify-between max-w-md mx-auto">
+            <!-- Modal Header -->
+            <div class="bg-app-darkCard p-3 border-b border-gray-800 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <button onclick="closeChatRoom()" class="p-1 rounded bg-gray-800 text-gray-300">←</button>
+                    <img id="chat-user-avatar" src="" class="w-8 h-8 rounded-full object-cover" alt="User">
+                    <div>
+                        <h4 id="chat-user-name" class="font-bold text-xs text-white">Nome Usuário</h4>
+                        <span class="text-[9px] text-emerald-400">Online • Tradutor IA Ativo</span>
+                    </div>
+                </div>
+                <button onclick="closeChatRoom()" class="text-gray-400 hover:text-white">✕</button>
+            </div>
+
+            <!-- Messages Stream -->
+            <div id="chat-messages-body" class="flex-1 p-3 overflow-y-auto space-y-2 text-xs">
+                <!-- Messages populated dynamically -->
+            </div>
+
+            <!-- Message Input -->
+            <div class="p-3 bg-app-darkCard border-t border-gray-800 flex gap-2">
+                <input type="text" id="chat-text-input" placeholder="Responder mensagem com tradução instantânea..." class="flex-1 bg-gray-900 text-xs text-white rounded-xl px-3 py-2 border border-gray-700" onkeypress="if(event.key==='Enter') sendChatMessage()">
+                <button onclick="sendChatMessage()" class="px-4 py-2 accent-bg text-black font-extrabold text-xs rounded-xl">Enviar</button>
+            </div>
+        </div>
+
+        <!-- CREATE POST MODAL -->
+        <div id="create-post-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-3">
+            <div class="bg-app-darkCard w-full max-w-sm rounded-2xl border border-gray-800 p-4 space-y-3">
+                <div class="flex items-center justify-between border-b border-gray-800 pb-2">
+                    <h3 class="font-bold text-xs text-white">Nova Publicação sem Intermediário</h3>
+                    <button onclick="closeCreatePostModal()" class="text-gray-400">✕</button>
+                </div>
+                <textarea id="new-post-content" placeholder="Escreva sobre sua produção, denúncia ou ofertas..." class="w-full bg-gray-900 text-xs text-white p-3 rounded-xl border border-gray-700 h-28 focus:outline-none"></textarea>
+                <div class="flex items-center justify-between text-xs">
+                    <select id="new-post-type" class="bg-gray-900 text-gray-300 text-xs rounded-lg px-2 py-1 border border-gray-700">
+                        <option value="social">🔥 Redes Sociais</option>
+                        <option value="oferta">🥩 Mercado Direto</option>
+                        <option value="denuncia">📢 Denúncia / Voz</option>
+                    </select>
+                    <button onclick="publishNewPost()" class="px-4 py-1.5 accent-bg text-black font-extrabold rounded-xl">Publicar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOAST NOTIFICATION CONTAINER -->
+        <div id="toast-container" class="fixed bottom-16 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none"></div>
+
+        <!-- BOTTOM NAVIGATION BAR (FIXED) -->
+        <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-app-darkBg/95 dark:bg-app-darkBg/95 backdrop-blur-lg border-t border-app-darkBorder dark:border-app-darkBorder px-2 py-1.5 z-40">
+            <div class="flex items-center justify-around">
+
+                <!-- Home / Feed -->
+                <button onclick="switchTab('inicio')" id="nav-inicio" class="nav-btn active flex flex-col items-center gap-0.5 text-gray-400 hover:text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    <span class="text-[9px] font-bold">Início</span>
+                </button>
+
+                <!-- Reels short videos -->
+                <button onclick="switchTab('reels')" id="nav-reels" class="nav-btn flex flex-col items-center gap-0.5 text-gray-400 hover:text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span class="text-[9px] font-bold">Reels</span>
+                </button>
+
+                <!-- Floating Center Button: Dola IA -->
+                <button onclick="switchTab('dola')" id="nav-dola" class="relative -top-3 w-12 h-12 rounded-full accent-bg text-black font-black flex items-center justify-center shadow-lg accent-glow active:scale-95 transition">
+                    <span class="text-xl">🧠</span>
+                </button>
+
+                <!-- Voz do Povo & Estudos -->
+                <button onclick="switchTab('voz')" id="nav-voz" class="nav-btn flex flex-col items-center gap-0.5 text-gray-400 hover:text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+                    <span class="text-[9px] font-bold">Voz/Estudos</span>
+                </button>
+
+                <!-- Zap / Chat -->
+                <button onclick="switchTab('zap')" id="nav-zap" class="nav-btn flex flex-col items-center gap-0.5 text-gray-400 hover:text-white transition relative">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    <span class="text-[9px] font-bold">Zap</span>
+                    <span class="absolute top-0 right-2 w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                </button>
+
+            </div>
+        </nav>
+
+    </div>
+
+    <!-- PWA & CLIENT APP LOGIC SCRIPT -->
+    <script>
+        // APP STATE MANAGEMENT
+        const state = {
+            activeTab: 'inicio',
+            themeMode: localStorage.getItem('aponte_theme') || 'dark',
+            accentColor: localStorage.getItem('aponte_accent') || 'emerald',
+            dubbingOn: true,
+            activeLanguage: 'pt',
+            currentChatUser: null,
+            deferredInstallPrompt: null
+        };
+
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            initAccentColor(state.accentColor);
+            registerServiceWorker();
+            setupPWAInstall();
+        });
+
+        // THEME CONTROLLER (Dark / Light)
+        function toggleTheme() {
+            state.themeMode = state.themeMode === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('aponte_theme', state.themeMode);
+            initTheme();
+        }
+
+        function initTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            if (state.themeMode === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('html-light');
+                body.classList.remove('bg-app-darkBg', 'text-gray-100');
+                body.classList.add('bg-app-lightBg', 'text-gray-800');
+                if (themeIcon) themeIcon.textContent = '☀️';
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('html-light');
+                body.classList.add('bg-app-darkBg', 'text-gray-100');
+                body.classList.remove('bg-app-lightBg', 'text-gray-800');
+                if (themeIcon) themeIcon.textContent = '🌙';
+            }
+        }
+
+        // ACCENT COLOR KEY CONTROLLER ("TECLAS")
+        function setAccentColor(color) {
+            state.accentColor = color;
+            localStorage.setItem('aponte_accent', color);
+            initAccentColor(color);
+            showToast(`Tecla de cor alterada para: ${color.toUpperCase()}`);
+        }
+
+        function initAccentColor(color) {
+            const wrapper = document.body;
+            wrapper.classList.remove('theme-emerald', 'theme-blue', 'theme-amber', 'theme-purple', 'theme-orange');
+            if (color !== 'emerald') {
+                wrapper.classList.add(`theme-${color}`);
+            }
+        }
+
+        // NAVIGATION TAB SWITCHER
+        function switchTab(tabId) {
+            state.activeTab = tabId;
+            const tabs = ['inicio', 'reels', 'mercado', 'voz', 'zap', 'dola'];
+            
+            tabs.forEach(id => {
+                const el = document.getElementById(`tab-${id}`);
+                const navBtn = document.getElementById(`nav-${id}`);
+                if (el) el.classList.add('hidden');
+                if (navBtn) {
+                    navBtn.classList.remove('text-white', 'accent-text', 'font-extrabold');
+                    navBtn.classList.add('text-gray-400');
+                }
+            });
+
+            const activeEl = document.getElementById(`tab-${tabId}`);
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeEl) activeEl.classList.remove('hidden');
+            if (activeNav) {
+                activeNav.classList.remove('text-gray-400');
+                activeNav.classList.add('text-white', 'accent-text', 'font-extrabold');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function setActiveSubTab(subId) {
+            document.querySelectorAll('.subtab-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-gray-800', 'text-white', 'font-bold');
+                btn.classList.add('bg-gray-900/60', 'text-gray-400');
+            });
+            const selected = document.getElementById(`subtab-${subId}`);
+            if (selected) {
+                selected.classList.add('active', 'bg-gray-800', 'text-white', 'font-bold');
+                selected.classList.remove('bg-gray-900/60', 'text-gray-400');
+            }
+
+            if (subId === 'mercado') switchTab('mercado');
+            else if (subId === 'auditoria' || subId === 'estudos') switchTab('voz');
+            else switchTab('inicio');
+        }
+
+        // DRAWER CONTROLLER
+        function toggleDrawer(open) {
+            const drawer = document.getElementById('drawer-menu');
+            if (open) {
+                drawer.classList.remove('-translate-x-full');
+            } else {
+                drawer.classList.add('-translate-x-full');
+            }
+        }
+
+        function drawerNavigate(targetTab) {
+            toggleDrawer(false);
+            switchTab(targetTab);
+        }
+
+        // AUDIO DUBLAGEM & TRANSLATION TOGGLE
+        function toggleAudioDubbing() {
+            state.dubbingOn = !state.dubbingOn;
+            const btn = document.getElementById('dubbing-btn');
+            const statusText = document.getElementById('translation-status-text');
+            if (state.dubbingOn) {
+                btn.classList.remove('bg-gray-700', 'text-gray-300');
+                btn.classList.add('accent-bg', 'text-black');
+                btn.innerHTML = `🔊 Dublagem ON`;
+                statusText.textContent = 'Tradutor IA & Dublagem Ativos (Tempo Real)';
+                showToast('Dublagem e tradução por voz ativados!');
+            } else {
+                btn.classList.remove('accent-bg', 'text-black');
+                btn.classList.add('bg-gray-700', 'text-gray-300');
+                btn.innerHTML = `🔇 Dublagem OFF`;
+                statusText.textContent = 'Tradução em Texto Original';
+                showToast('Dublagem desligada');
+            }
+        }
+
+        function switchGlobalLanguage(lang) {
+            state.activeLanguage = lang;
+            showToast(`Idioma alterado para: ${lang.toUpperCase()}`);
+        }
+
+        // TEXT-TO-SPEECH VOICE SYNTHESIS SIMULATION
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) {
+                showToast('Síntese de voz não suportada no seu navegador.');
+                return;
+            }
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'pt-BR';
+            utterance.rate = 1.0;
+            window.speechSynthesis.speak(utterance);
+            showToast('🔊 Reproduzindo voz dublada pela IA...');
+        }
+
+        // POST TRANSLATION TOGGLE
+        function translatePost(textId) {
+            const el = document.getElementById(textId);
+            if (!el) return;
+            if (el.dataset.translated === "true") {
+                el.textContent = `"Here in America, big grain cartels try to force low prices on farmers. Through A PONTE, we want to export non-GMO grain directly to Latin American cooperatives without corporate speculators taking 60% margin!"`;
+                el.dataset.translated = "false";
+                showToast('Exibindo texto original em Inglês');
+            } else {
+                el.textContent = `"Aqui na América, os grandes cartéis de grãos tentam forçar preços baixos nos produtores. Através d'A PONTE, queremos exportar grãos não transgênicos direto para cooperativas da América Latina sem especuladores corporativos tirarem 60% de margem!"`;
+                el.dataset.translated = "true";
+                showToast('🌐 Traduzido por IA instantaneamente!');
+            }
+        }
+
+        // ZAP INTERACTIVE CHAT SYSTEM
+        function startZapChat(userName, initialMessage) {
+            switchTab('zap');
+            openChatRoom(userName, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80', initialMessage);
+        }
+
+        function openChatRoom(name, avatar, prefillMessage = '') {
+            state.currentChatUser = name;
+            document.getElementById('chat-user-name').textContent = name;
+            document.getElementById('chat-user-avatar').src = avatar;
+
+            const body = document.getElementById('chat-messages-body');
+            body.innerHTML = `
+                <div class="bg-gray-900/60 p-2 rounded-xl text-gray-400 text-[10px] text-center border border-gray-800">
+                    🔒 Chat 100% Criptografado & Traduzido em tempo real.
+                </div>
+                <div class="bg-gray-900 p-2.5 rounded-xl text-gray-200 border border-gray-800 max-w-[85%]">
+                    <span class="font-bold accent-text block">${name}:</span>
+                    Olá! Como podemos fechar essa negociação direta?
+                </div>
+            `;
+
+            if (prefillMessage) {
+                body.innerHTML += `
+                    <div class="bg-emerald-950/60 border border-emerald-500/30 p-2.5 rounded-xl text-emerald-200 max-w-[85%] ml-auto text-right">
+                        ${prefillMessage}
+                    </div>
+                `;
+            }
+
+            document.getElementById('chat-room-modal').classList.remove('hidden');
+        }
+
+        function closeChatRoom() {
+            document.getElementById('chat-room-modal').classList.add('hidden');
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chat-text-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const body = document.getElementById('chat-messages-body');
+            body.innerHTML += `
+                <div class="bg-emerald-950/60 border border-emerald-500/30 p-2.5 rounded-xl text-emerald-200 max-w-[85%] ml-auto text-right">
+                    ${msg}
+                </div>
+            `;
+            input.value = '';
+            body.scrollTop = body.scrollHeight;
+
+            // Simulated Auto-Reply
+            setTimeout(() => {
+                body.innerHTML += `
+                    <div class="bg-gray-900 p-2.5 rounded-xl text-gray-200 border border-gray-800 max-w-[85%]">
+                        <span class="font-bold accent-text block">${state.currentChatUser || 'Produtor'}:</span>
+                        Recebido com sucesso! Contrato emitido no app A PONTE sem taxas intermediárias.
+                    </div>
+                `;
+                body.scrollTop = body.scrollHeight;
+            }, 1000);
+        }
+
+        // SIMULATED DOLA IA GATEWAY CHAT SYSTEM
+        async function triggerDolaSend() {
+            const input = document.getElementById('dola-user-input');
+            const prompt = input.value.trim();
+            if (!prompt) return;
+            
+            sendDolaPrompt(prompt);
+            input.value = '';
+        }
+
+        async function sendDolaPrompt(prompt) {
+            const chatBox = document.getElementById('dola-chat-box');
+            
+            // User message
+            chatBox.innerHTML += `
+                <div class="bg-purple-900/40 border border-purple-500/30 p-2.5 rounded-xl text-purple-200 ml-auto max-w-[85%] text-right">
+                    <strong>Você:</strong> ${prompt}
+                </div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Thinking indicator
+            const thinkingId = 'thinking-' + Date.now();
+            chatBox.innerHTML += `
+                <div id="${thinkingId}" class="bg-gray-900 p-2.5 rounded-xl text-gray-400 border border-gray-800 max-w-[85%] flex items-center gap-2">
+                    <span class="animate-spin">⏳</span> Dola IA consultando gateway...
+                </div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Call API Gateway / Gemini endpoint with fallback logic
+            try {
+                const responseText = await callAIGateway(prompt);
+                const thinkingEl = document.getElementById(thinkingId);
+                if (thinkingEl) thinkingEl.remove();
+
+                chatBox.innerHTML += `
+                    <div class="bg-purple-950/60 border border-purple-500/40 p-2.5 rounded-xl text-purple-100 max-w-[90%]">
+                        <strong class="accent-text">Dola IA (Resposta Verificada):</strong><br>${responseText}
+                    </div>
+                `;
+            } catch (err) {
+                const thinkingEl = document.getElementById(thinkingId);
+                if (thinkingEl) thinkingEl.remove();
+
+                // Smart local fallback response
+                chatBox.innerHTML += `
+                    <div class="bg-purple-950/60 border border-purple-500/40 p-2.5 rounded-xl text-purple-100 max-w-[90%]">
+                        <strong class="accent-text">Dola IA (Assistente de Campo):</strong><br>
+                        Entendi sua solicitação sobre "<em>${prompt}</em>". No aplicativo A PONTE, garantimos que produtores e compradores fechem contratos diretos via PWA sem intermediários cobrando taxas abusivas.
+                    </div>
+                `;
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function callAIGateway(userPrompt) {
+            const apiKey = ""; // Canvas runtime populates this or uses local simulated intelligence
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userPrompt }] }],
+                systemInstruction: {
+                    parts: [{ text: "Você é o Dola IA, assistente inteligente do super app 'A PONTE'. Seu objetivo é apoiar os cidadãos e pequenos produtores a negociarem diretamente sem exploradores ou cartéis." }]
+                }
+            };
+
+            const res = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) throw new Error("Gateway Error");
+            const data = await res.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Solicitação processada com sucesso!";
+        }
+
+        // CREATE POST MODAL LOGIC
+        function openCreatePostModal(type = 'social') {
+            document.getElementById('create-post-modal').classList.remove('hidden');
+        }
+
+        function closeCreatePostModal() {
+            document.getElementById('create-post-modal').classList.add('hidden');
+        }
+
+        function publishNewPost() {
+            const content = document.getElementById('new-post-content').value.trim();
+            if (!content) {
+                showToast('Por favor, escreva uma mensagem antes de publicar.');
+                return;
+            }
+
+            closeCreatePostModal();
+            showToast('✅ Publicado com sucesso d\'A PONTE!');
+            document.getElementById('new-post-content').value = '';
+            switchTab('inicio');
+        }
+
+        // MERCADO CATEGORY FILTERING
+        function filterMercado(category) {
+            switchTab('mercado');
+            const items = document.querySelectorAll('.mercado-card');
+            items.forEach(item => {
+                if (category === 'todos' || item.classList.contains(category)) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        // GLOBAL SEARCH HANDLER
+        function handleGlobalSearch(query) {
+            const q = query.toLowerCase().trim();
+            if (!q) return;
+            // Simple toast feedback during dynamic filter
+            console.log('Filtrando por:', q);
+        }
+
+        // DENÚNCIA SUBMISSION
+        function submitDenuncia() {
+            const text = document.getElementById('denuncia-text-input').value.trim();
+            if (!text) {
+                showToast('Por favor, digite o relato da denúncia.');
+                return;
+            }
+            document.getElementById('denuncia-text-input').value = '';
+            showToast('📢 Denúncia auditada e registrada no Telão Público!');
+        }
+
+        // LIKE TOGGLE
+        function toggleLike(btn) {
+            const countEl = btn.querySelector('.like-count');
+            let count = parseInt(countEl.textContent);
+            if (btn.classList.contains('liked')) {
+                btn.classList.remove('liked', 'text-rose-400');
+                countEl.textContent = count - 1;
+            } else {
+                btn.classList.add('liked', 'text-rose-400');
+                countEl.textContent = count + 1;
+            }
+        }
+
+        function toggleComments(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('hidden');
+        }
+
+        // TOAST NOTIFICATIONS
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-gray-900/95 text-white border border-emerald-500/40 text-xs px-4 py-2.5 rounded-2xl shadow-2xl backdrop-blur-md font-semibold text-center animate-bounce mb-2';
+            toast.textContent = msg;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // SERVICE WORKER & PWA INSTALLATION
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+                    self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
+                    self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
+                    self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
+                `;
+                const blob = new Blob([swCode], { type: 'text/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swUrl).catch(err => console.log('SW Load:', err));
+            }
+        }
+
+        function setupPWAInstall() {
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                state.deferredInstallPrompt = e;
+            });
+        }
+
+        function installPWA() {
+            if (state.deferredInstallPrompt) {
+                state.deferredInstallPrompt.prompt();
+                state.deferredInstallPrompt.userChoice.then(choice => {
+                    if (choice.outcome === 'accepted') {
+                        showToast('PWA Instalado com sucesso!');
+                    }
+                    state.deferredInstallPrompt = null;
+                });
+            } else {
+                showToast('Para instalar: Adicione esta página à tela inicial do celular!');
+            }
+        }
+    </script>
+</body>
+</html>
